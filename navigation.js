@@ -3,9 +3,9 @@
 	
 	/* init global variables */
 	const activeNavColor = '#1d1d1f'; // same as css variable --grey--800
-	let navbar; 
-	let navLine; 
-	let timeContainer;
+	let navbar; // the ul element inside the nav
+	let navLine; // the underline for the active navigation item
+	let content; // the div inside the content block, responsible to display local time
 
 	/* Debounce function to limit the rate at which a function can fire */
 	const debounce = (func, wait) => {
@@ -106,8 +106,8 @@
 			if (navbar.classList.contains('cm-navbar__skeleton')) {
 				navbar.classList.remove('cm-navbar__skeleton');
 			}
-			if (timeContainer.classList.contains('cm-time-container__skeleton')) {
-				timeContainer.classList.remove('cm-time-container__skeleton');
+			if (content.classList.contains('cm-time-container__skeleton')) {
+				content.classList.remove('cm-time-container__skeleton');
 				document.querySelector('.cm-time-container__city').removeAttribute('hidden');
 			}
 
@@ -133,7 +133,7 @@
 				city.dataCity = `${item.section}`;
 				city.label = item.label;
 				city.hidden = true;
-				timeContainer.appendChild(city);
+				content.appendChild(city);
 			});
 
 			navbar.addEventListener('click', e => {
@@ -152,8 +152,8 @@
    			item.removeAttribute('hidden');
 				item.removeAttribute('aria-hidden');
 			});
-			if (timeContainer.classList.contains('cm-time-container__skeleton')) {
-				timeContainer.classList.remove('cm-time-container__skeleton');
+			if (content.classList.contains('cm-time-container__skeleton')) {
+				content.classList.remove('cm-time-container__skeleton');
 			}
 		}
 	}
@@ -163,7 +163,7 @@
 	window.addEventListener('DOMContentLoaded', () => {
 		navbar = document.getElementsByClassName('cm-navbar__list')[0];
 		navLine = document.querySelector('.cm-navbar__underline');
-		timeContainer = document.querySelector('.cm-time-container');
+		content = document.querySelector('.cm-time-container');
 
 		createNavbar();
 	});
