@@ -27,11 +27,19 @@ http-server .
 
 - Using VS Code [Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) or install directly from VS Code. There will be a link in the bottom of the editor to start and run the server automatically and also view the HTML immediately.
 
-
-### Considerations and Improvements
+### Notes
 
 - After reviewing the provides colors and the example video, I introduced another grey variable. In my opinion (could be influenced from my macbook) the contrast between the lightest and darkest grey would not match the video. I would reach out to the Designer or PM responsible for the ticket to clarify that.
+
+- I added another property `timezone` to the JSON file in order to support my approach of using `Intl.DateTimeFormat` to generate the local time.
+
+
+### Considerations and Improvements if given more time
 
 - We could improve the CSS variable naming and maybe introduce granular tokens if we use those in other parts of this page.
 
 - We need to think about error handling. I assumed this is not a critcal part of the page, therefore I went with logging errors in the console.
+
+- We could add some slide in animation to the content block when the city changes.
+
+- We could look into having some unit testing, I suggest something like [this](https://alexwlchan.net/2023/testing-javascript-without-a-framework/)
