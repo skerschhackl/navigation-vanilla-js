@@ -26,6 +26,16 @@
 		}
 	};
 
+	/* remove skeleton classes once data is loaded */
+	function removeSkeletonClasses() {
+		if (navbar.classList.contains('cm-navbar__skeleton')) {
+			navbar.classList.remove('cm-navbar__skeleton');
+		}
+		if (content.classList.contains('cm-time-container__skeleton')) {
+			content.classList.remove('cm-time-container__skeleton');
+		}
+	}
+
 	/* helper function to get local time for given city */
 	function getCityTime(timeZone) {	
 		/* format date and time using specified time zone */
@@ -103,13 +113,8 @@
 			const navItems = await response.json();
 
 			/* remove skeleton classes */
-			if (navbar.classList.contains('cm-navbar__skeleton')) {
-				navbar.classList.remove('cm-navbar__skeleton');
-			}
-			if (content.classList.contains('cm-time-container__skeleton')) {
-				content.classList.remove('cm-time-container__skeleton');
-				document.querySelector('.cm-time-container__city').removeAttribute('hidden');
-			}
+			removeSkeletonClasses();
+			document.querySelector('.cm-time-container__city').removeAttribute('hidden');
 
 			/* append nav items to DOM */
 			navItems.cities.forEach(item => {
@@ -145,19 +150,13 @@
 		} catch (error) {
 			console.error('Error fetching or parsing navbar JSON:', error);
 			/* remove skeleton classes */
-			if (navbar.classList.contains('cm-navbar__skeleton')) {
-				navbar.classList.remove('cm-navbar__skeleton');
-			}
+			removeSkeletonClasses();
 			navbar.querySelectorAll('.cm-navbar__error').forEach((item) => {
-   			item.removeAttribute('hidden');
-				item.removeAttribute('aria-hidden');
-			});
-			if (content.classList.contains('cm-time-container__skeleton')) {
-				content.classList.remove('cm-time-container__skeleton');
-			}
+				item.removeAttribute('hidden');
+			 item.removeAttribute('aria-hidden');
+		 });
 		}
 	}
-
 
 	/*	wait for DOM to be loaded before adding nav items	*/
 	window.addEventListener('DOMContentLoaded', () => {
