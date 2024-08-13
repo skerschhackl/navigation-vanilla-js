@@ -5,6 +5,7 @@
 	const activeNavColor = '#1d1d1f'; // same as css variable --grey--800
 	let navbar; 
 	let navLine; 
+	let timeContainer;
 
 	/* Debounce function to limit the rate at which a function can fire */
 	const debounce = (func, wait) => {
@@ -16,13 +17,34 @@
 	};
 	/* resize event listener to update position of underline */
 	window.addEventListener("resize", debounce(onResize, 100));
-	function onResize(){
+	function onResize() {
 		const active = document.querySelector(".cm-navbar__list li.cm-navbar__item.active");
 		if (active) {
 			const { left, top } = active.getBoundingClientRect();
 			navLine.style.left = `${left + window.scrollX}px`;
 			navLine.style.top = `${top + window.scrollY + 1}px`;
 		}
+	};
+
+	/* helper function to get local time for given city */
+	function getCityTime(timeZone) {	
+		/* format date and time using specified time zone */
+		const options = {
+			timeZone,
+			hour: '2-digit',
+			minute: '2-digit',
+			second: '2-digit',
+			hour12: true, // set false to use 24-hour time format
+			timeZoneName: 'long'
+		};
+	
+		/* create a new Intl.DateTimeFormat object with the specified options */
+		const formatter = new Intl.DateTimeFormat('en-US', options);
+		const now = new Date();
+		/* format current datetime */
+		const timeString = formatter.format(now);
+	
+		return timeString;
 	}
 
 	/* onClick function for navbar */
@@ -30,7 +52,7 @@
 		e.preventDefault();
 		const { target } = e;
 		const parent = target.parentNode;
-		
+
 		/* return if clicked link is already active */
 		if (parent.classList.contains('active')) return;
 	
@@ -51,6 +73,15 @@
 			transform: none;
 			z-index: 2;
 		`;
+
+		/* update content to show correct city and time */
+		document.querySelectorAll('.cm-time-container__text').forEach((city) => {
+			city.hidden = true;
+			if (e.target.classList.contains(city.dataCity)) {
+				city.removeAttribute('hidden');
+				document.querySelector('.cm-time-container__city').innerHTML = `Local Time in ${city.label}`;
+			}						
+		});
 	}
 
 	/*
@@ -71,11 +102,16 @@
 
 			const navItems = await response.json();
 
-			/* remove skeleton class */
+			/* remove skeleton classes */
 			if (navbar.classList.contains('cm-navbar__skeleton')) {
 				navbar.classList.remove('cm-navbar__skeleton');
 			}
+			if (timeContainer.classList.contains('cm-time-container__skeleton')) {
+				timeContainer.classList.remove('cm-time-container__skeleton');
+				document.querySelector('.cm-time-container__city').removeAttribute('hidden');
+			}
 
+			/* append nav items to DOM */
 			navItems.cities.forEach(item => {
 				const listItem = document.createElement('li');
 				listItem.className = 'cm-navbar__item';
@@ -83,22 +119,32 @@
 
 				const anchor = document.createElement('a');
 				anchor.textContent = item.label;
-				anchor.href = `#${item.section}`;
-				anchor.className = 'cm-navbar__link';
+				anchor.href = '#';
+				anchor.className = `cm-navbar__link ${item.section}`;
 
 				listItem.appendChild(anchor);
 				navbar.appendChild(listItem);
+
+				/* get all times for cities in navbar and append to DOM */
+				const time = getCityTime(item.timeZone);
+				const city = document.createElement('div');
+				city.textContent = time;
+				city.className = 'cm-time-container__text';
+				city.dataCity = `${item.section}`;
+				city.label = item.label;
+				city.hidden = true;
+				timeContainer.appendChild(city);
 			});
 
 			navbar.addEventListener('click', e => {
 				if (e.target.classList.contains('cm-navbar__link')) {
-					onNavbarClick(e);
+					onNavbarClick(e);					
 				}
 			});
 
 		} catch (error) {
 			console.error('Error fetching or parsing navbar JSON:', error);
-			/* remove skeleton class */
+			/* remove skeleton classes */
 			if (navbar.classList.contains('cm-navbar__skeleton')) {
 				navbar.classList.remove('cm-navbar__skeleton');
 			}
@@ -106,6 +152,9 @@
    			item.removeAttribute('hidden');
 				item.removeAttribute('aria-hidden');
 			});
+			if (timeContainer.classList.contains('cm-time-container__skeleton')) {
+				timeContainer.classList.remove('cm-time-container__skeleton');
+			}
 		}
 	}
 
@@ -114,6 +163,7 @@
 	window.addEventListener('DOMContentLoaded', () => {
 		navbar = document.getElementsByClassName('cm-navbar__list')[0];
 		navLine = document.querySelector('.cm-navbar__underline');
+		timeContainer = document.querySelector('.cm-time-container');
 
 		createNavbar();
 	});

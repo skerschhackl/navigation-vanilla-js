@@ -59,7 +59,7 @@
 	transition: all .35s ease-in-out;
 }
 
-.cm-navbar__skeleton {
+.cm-navbar__skeleton, .cm-time-container__skeleton {
   animation: skeleton-loading 1s linear infinite alternate;
 	border-radius: .5rem;
 	border-color: transparent;
@@ -75,4 +75,20 @@
   100% {
     background-color: var(--white)
   }
+}
+
+/* styles for content block */
+.cm-time-container {
+	margin: 0 30px;
+	opacity: 1;
+	min-height: 70px;
+}
+.cm-time-container__city {
+	font-weight: 400;
+}
+.cm-time-container__text {
+	font-size: 14px
+}
+.cm-time-container {
+	transition: opacity 5s ease-in-out;
 }
