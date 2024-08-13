@@ -1,0 +1,77 @@
+:root {
+	/* variable naming could be improved */
+	--grey--800: #1d1d1f;
+	--grey--600: #424245;
+	--grey--500: #6e6e73;
+	--grey--400: #86868b;
+	--grey--200: #b6b6b6; 
+	--white: #fff;
+	--blue: #0066cc;
+}
+
+#cm-navbar {
+	font-size: 14px;
+	font-size: 1.4rem;
+	margin: 0 auto;
+	color: var(--grey--200);
+	margin: 80px 20px 30px;
+}
+
+/* Basic styling for the navbar */
+.cm-navbar__list {
+	min-height: 36px; /* to ensure no 'jumping' on slow load */
+	display: flex;
+	justify-content: space-evenly;
+	flex-wrap: wrap;
+	list-style-type: none;
+	padding: 0;
+	border-bottom: 1px solid var(--grey--200);
+}
+
+.cm-navbar__list li.cm-navbar__item:not(:last-child) {
+	margin: 0 10px;
+}
+.cm-navbar__list a.cm-navbar__link {
+	display: block;
+	padding: 7px 0px;
+	text-decoration: none;
+	color: var(--grey--200);
+}
+
+.cm-navbar__list li.cm-navbar__item.active a.cm-navbar__link {
+	color: var(--grey--800);
+}
+
+.cm-navbar__list a.cm-navbar__link:hover {
+	color: var(--blue);
+	transition: color .25s ease-in-out
+}
+
+.cm-navbar__underline {
+  position: absolute;
+  border-bottom: 1px solid transparent;
+  z-index: -1;
+  transform: translateX(-60px);
+}
+
+.cm-navbar a.cm-navbar__link, .cm-navbar__underline {
+	transition: all .35s ease-in-out;
+}
+
+.cm-navbar__skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+	border-radius: .5rem;
+	border-color: transparent;
+}
+.cm-navbar__skeleton, .cm-navbar__list {
+	transition: border-color .5s ease-in-out, color .5s ease-in-out;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: var(--grey--200)
+  }
+  100% {
+    background-color: var(--white)
+  }
+}
