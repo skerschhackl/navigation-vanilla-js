@@ -1,0 +1,76 @@
+/*
+	RESET CSS BLOCK
+*/
+/*
+  use a more-intuitive box-sizing model
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+/*
+  remove default margin
+*/
+* {
+  margin: 0;
+}
+/*
+  Typographic tweaks: add accessible line-height & improve text rendering
+*/
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+/*
+  improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+/*
+  remove built-in form typography styles
+*/
+input, button, textarea, select {
+  font: inherit;
+}
+/*
+  avoid text overflows
+*/
+p, h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+
+/*
+	BASE CSS
+	general styles for the page
+*/
+html {
+  font-size: 62.5%; /* Now 10px = 1rem! */
+}
+
+body {
+  font-size: 16px; /* px fallback */
+  font-size: 1.6rem; /* default font-size for document */
+  line-height: 1.5; 
+	font-family: "SF Pro Text", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+	font-weight: 400;
+	background-color: #FFF;
+  color: #333;
+}
+.wrapper {
+	/* 
+		this breakpoint ensures the nav still looks good on large screens 
+		but won't feel spread out on very large screens 
+		*/
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
+content {
+	display: block;
+	margin: 20px;
+}
+
+/* attribute to hide error messages already included in html */
+[hidden] { display: none !important }
